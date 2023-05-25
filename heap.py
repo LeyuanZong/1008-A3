@@ -10,9 +10,18 @@ from referential_array import ArrayR, T
 class MaxHeap(Generic[T]):
     MIN_CAPACITY = 1
 
-    def __init__(self, max_size: int) -> None:
-        self.length = 0
+    def __init__(self, max_size: int, an_array: ArrayR[T] = None) -> None:
         self.the_array = ArrayR(max(self.MIN_CAPACITY, max_size) + 1)
+        self.length = 0
+
+        if an_array is not None:
+            self.length = max_size
+            for i in range(self.length):
+                self.the_array[i+1] = self.the_array[i]
+
+            for i in range(max_size//2,0,-1):
+                self.sink(i)
+
 
     def __len__(self) -> int:
         return self.length
