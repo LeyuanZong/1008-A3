@@ -24,6 +24,11 @@ class BeeNode:
     subtree_size: int = 1
 
     def get_child_for_key(self, point: Point) -> BeeNode | None:
+        """
+        Attempts to get the child of a node in certain direction, it uses the point to attempt to find it
+        complexity: O(CompK) finds the item in the root of the tree
+        CompK is the complexity of comparing the keys (point)
+        """
         
         # if point is the current key, return current node
         if self.key == point:
@@ -97,15 +102,32 @@ class ThreeDeeBeeTree(Generic[I]):
     def __getitem__(self, key: Point) -> I:
         """
             Attempts to get an item in the tree, it uses the Key to attempt to find it
+
+            complexity best: O(CompK) finds the item in the root of the tree
+            complexity worst: O(CompK * D) item is not found, where D is the depth of the tree
+            CompK is the complexity of comparing the keys
         """
         node = self.get_tree_node_by_key(key)
         return node.item
 
     def get_tree_node_by_key(self, key: Point) -> BeeNode:
+        """
+        Attempts to get an item in the tree, it uses the Key to attempt to find it
+        complexity best: O(CompK) finds the item in the root of the tree
+        complexity worst: O(CompK * D) item is not found, where D is the depth of the tree
+        CompK is the complexity of comparing the keys
+        """
         
         return self.get_tree_node_by_key_aux(self.root, key)
     
+    
     def get_tree_node_by_key_aux(self, current: BeeNode, key: Point) -> BeeNode:
+        """
+        Attempts to get an item in the tree, it uses the Key to attempt to find it
+        complexity best: O(CompK) finds the item in the root of the tree
+        complexity worst: O(CompK * D) item is not found, where D is the depth of the tree
+        CompK is the complexity of comparing the keys
+        """
 
         if current is None:
             raise KeyError('Key not found: {0}'.format(key))
@@ -146,11 +168,22 @@ class ThreeDeeBeeTree(Generic[I]):
 
 
     def __setitem__(self, key: Point, item: I) -> None:
+        """
+        complexity best: O(CompK) inserts the item at the root.
+        complexity worst: O(CompK * D) inserting at the bottom of the tree
+        where D is the depth of the tree
+        CompK is the complexity of comparing the keys
+        """
         self.root = self.insert_aux(self.root, key, item)
 
     def insert_aux(self, current: BeeNode, key: Point, item: I) -> BeeNode:
         """
-            Attempts to insert an item into the tree, it uses the Key to insert it
+        Attempts to insert an item into the tree, it uses the Key to insert it
+
+        complexity best: O(CompK) inserts the item at the root.
+        complexity worst: O(CompK * D) inserting at the bottom of the tree
+        where D is the depth of the tree
+        CompK is the complexity of comparing the keys
         """
         if current is None:  # base case: at the leaf
             current = BeeNode(key, item = item, subtree_size = 1)
@@ -205,7 +238,10 @@ class ThreeDeeBeeTree(Generic[I]):
 
 
     def is_leaf(self, current: BeeNode) -> bool:
-        """ Simple check whether or not the node is a leaf. """
+        """ Simple check whether or not the node is a leaf. 
+        
+        complexity: O(1)
+        """
         lst = [current.x0y0z0, current.x0y0z1, current.x0y1z0, current.x0y1z1, current.x1y0z0, current.x1y0z1, current.x1y1z0, current.x1y1z1]
 
         for d in lst:
