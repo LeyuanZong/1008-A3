@@ -65,9 +65,19 @@ class BinarySearchTree(Generic[K, I]):
         return self.get_tree_node_by_key(key).item
 
     def get_tree_node_by_key(self, key: K) -> TreeNode:
+        """
+        complexity best: O(CompK) finds the key in the root of the tree
+        complexity worst: O(CompK * D) key is not found, where D is the depth of the tree
+        CompK is the complexity of comparing the keys
+        """
         return self.get_tree_node_by_key_aux(self.root, key)
 
     def get_tree_node_by_key_aux(self, current: TreeNode, key: K) -> TreeNode:
+        """
+        complexity best: O(CompK) finds the key in the root of the tree
+        complexity worst: O(CompK * D) key is not found, where D is the depth of the tree
+        CompK is the complexity of comparing the keys
+        """
         if current is None:
             raise KeyError('Key not found: {0}'.format(key))
         elif key == current.key:
@@ -78,6 +88,12 @@ class BinarySearchTree(Generic[K, I]):
             return self.get_tree_node_by_key_aux(current.right, key)
 
     def __setitem__(self, key: K, item: I) -> None:
+        """
+        complexity best: O(CompK) inserts the item at the root.
+        complexity worst: O(CompK * D) inserting at the bottom of the tree
+        where D is the depth of the tree
+        CompK is the complexity of comparing the keys
+        """
         self.root = self.insert_aux(self.root, key, item)
 
     def insert_aux(self, current: TreeNode, key: K, item: I) -> TreeNode:
@@ -112,6 +128,11 @@ class BinarySearchTree(Generic[K, I]):
         """
             Attempts to delete an item from the tree, it uses the Key to
             determine the node to delete.
+
+            complexity best: O(CompK) delete the item at the root.
+            complexity worst: O(CompK * D) delete at the bottom of the tree
+            where D is the depth of the tree
+            CompK is the complexity of comparing the keys
         """
 
         if current is None:  # key not found
@@ -149,6 +170,10 @@ class BinarySearchTree(Generic[K, I]):
             Get successor of the current node.
             It should be a child node having the smallest key among all the
             larger keys.
+
+            complexity best: O(1) no right child
+            complexity worst: O(D) inserting at the bottom of the tree
+            where D is the depth of the tree
         """
         if current.right != None:
             return self.get_minimal(current.right)
@@ -158,6 +183,10 @@ class BinarySearchTree(Generic[K, I]):
     def get_minimal(self, current: TreeNode) -> TreeNode:
         """
             Get a node having the smallest key in the current sub-tree.
+
+            complexity best: O(1) no left child
+            complexity worst: O(D) left most node at the bottom of the tree
+            where D is the depth of the tree
         """
         while current.left != None:
             current = current.left
@@ -192,6 +221,10 @@ class BinarySearchTree(Generic[K, I]):
     def kth_smallest(self, k: int, current: TreeNode) -> TreeNode:
         """
         Finds the kth smallest value by key in the subtree rooted at current.
+
+        complexity best: O(1) no kth smallest in subtree
+        complexity worst: O(D) kth smallest node at the bottom of the tree
+        where D is the depth of the tree
         """
         node = current
         while node != None:
@@ -213,6 +246,11 @@ class BinarySearchTree(Generic[K, I]):
                 node = node.left
 
     def get_range(self, i: int, j: int):
+        """
+        complexity best: O(D) start to end range is 0 or 1
+        complexity worst: O(D + R)
+        where D is the depth of the tree and  R is the number of nodes from start to end
+        """
 
         # get first and last node in the range
 
@@ -224,6 +262,12 @@ class BinarySearchTree(Generic[K, I]):
         return self.get_range_aux(start.key, end.key, current, [])
     
     def get_range_parent(self, start, end, current):
+        """
+        Get parent
+        complexity best: O(1) node is within start - end.
+        complexity worst: O(D) node within start - end is at bottom of the tree
+        where D is the depth of the tree
+        """
 
         # get the root node within range
 
@@ -237,6 +281,10 @@ class BinarySearchTree(Generic[K, I]):
             return current
         
     def get_range_aux(self, start, end, current, acc):
+        """
+        complexity best: O(1) start - end range is 0 or 1
+        complexity worst: O(R) R = number of nodes from start to end
+        """
 
         # get all nodes within the range
 
