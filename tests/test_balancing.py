@@ -97,9 +97,9 @@ class TestBalancing(unittest.TestCase):
             (1, 2, 3),
             (4, 5, 6),
             (7, 8, 9),
-            (2, 1, 3),
-            (5, 4, 6),
-            (8, 7, 9),
+            (2, 3, 1),
+            (5, 6, 4),
+            (8, 9, 7),
         ]
         new_ordering = make_ordering(points[:])
         self.assertSetEqual(set(points), set(new_ordering))
